@@ -1,34 +1,58 @@
-#include <iostream>
-using namespace std;
+#include<iostream>
+using namespace std ;
 
-void heapify(int arr[], int n, int i, bool asc) {
-    int ext = i;    // index of largest (asc) or smallest (!asc)
-    int l = 2*i + 1, r = 2*i + 2;
+void heapifyMax( int arr[] , int n, int i ) { 
+    int ext = i ;
+    int l = 2*i + 1 ;
+    int r = 2*i + 2 ; 
+    
+    if(l < n && arr[l] > arr[ext]) ext = l ;
+    if(r < n && arr[r] > arr[ext]) ext = r ;
 
-    if (l < n) {
-        if (asc) { if (arr[l] > arr[ext]) ext = l; }
-        else     { if (arr[l] < arr[ext]) ext = l; }
-    }
-    if (r < n) {
-        if (asc) { if (arr[r] > arr[ext]) ext = r; }
-        else     { if (arr[r] < arr[ext]) ext = r; }
-    }
-
-    if (ext != i) {
-        swap(arr[i], arr[ext]);
-        heapify(arr, n, ext, asc);
+    if( ext != i ) {
+        swap(arr[i],arr[ext]) ;
+        heapifyMax(arr,n,ext) ;
     }
 }
 
-void heapSort(int arr[], int n, bool asc) {
-    // Build heap: max-heap if asc==true, min-heap if asc==false
-    for (int i = n/2 - 1; i >= 0; --i)
-        heapify(arr, n, i, asc);
+void heapifyMin( int arr[] , int n, int i ) { 
+    int ext = i ;
+    int l = 2*i + 1 ;
+    int r = 2*i + 2 ;
+    
+    if(l < n && arr[l] < arr[ext]) ext = l ;
+    if(r < n && arr[r] < arr[ext]) ext = r ;
 
-    // Extract one by one
-    for (int i = n - 1; i > 0; --i) {
-        swap(arr[0], arr[i]);          // move root to end
-        heapify(arr, i, 0, asc);       // restore heap on reduced size
+    if( ext != i ) {
+        swap(arr[i],arr[ext]) ;
+        heapifyMin(arr,n,ext) ;
+    }
+}
+
+void heapsort(int arr[],int n,bool asc) {
+    if(asc)
+    {
+        for(int i=(n/2)-1;i>=0;i--)
+        {
+            heapifyMax(arr,n,i);
+        }
+        for(int i=n-1;i>0;i--)
+        {
+            swap(arr[0],arr[i]);
+            heapifyMax(arr,i,0);
+        }
+    }
+    else
+    {
+        for(int i=(n/2)-1;i>=0;i--)
+        {
+            heapifyMin(arr,n,i);
+        }
+        for(int i=n-1;i>0;i--)
+        {
+            swap(arr[0],arr[i]);
+            heapifyMin(arr,i,0);
+        }
     }
 }
 
@@ -46,7 +70,7 @@ int main() {
     int choice; cin >> choice;
 
     bool asc = (choice == 1);          // true => max-heap => ascending
-    heapSort(arr, n, asc);
+    heapsort(arr, n, asc);
 
     cout << "\nSorted Array: ";
     for (int i = 0; i < n; ++i) cout << arr[i] << ' ';

@@ -15,7 +15,7 @@ int bound(int i, int n, int cap, int wt[], int profit[], int cw, int cp) {
     return b ; //upper bound profit
 }
 
-void knapsack(int i, int n, int cap, int wt[], int profit[],int cw, int cp,                 int &maxProfit, int curr[], int best[] ) {
+void knapsack(int i, int n, int cap, int wt[], int profit[],int cw, int cp,int &maxProfit, int curr[], int best[] ) {
     //stop if wieght exceeds
     if (cw > cap) return ;
     
